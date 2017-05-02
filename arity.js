@@ -11,23 +11,25 @@ var arity = (function() {
   }
 
   return function(scope) {
-    var nspc = scope.arity = {};
+    var nspc = (scope = scope || {}).arity = {};
 
     scope.def = function(name, fn) {
       nspc[format(name, fn)] = fn;
-      return scope[name] = scope[name] || caller(nspc, name);
+      return (scope[name] = scope[name] || caller(nspc, name));
     };
+
+    return scope;
   };
 }());
 
 arity(window);
 
-def("times", function(a, b) {
-  return a * b;
-});
-
 def("times", function(a) {
   return a * a;
+});
+
+def("times", function(a, b) {
+  return a * b;
 });
 
 console.log("2 * 2 =", times(2));
