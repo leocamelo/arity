@@ -1,2 +1,2 @@
-# arityjs
+# arity
 Function overload on JavaScript
