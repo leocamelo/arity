@@ -1,21 +1,21 @@
-var arity = (function() {
-  function format(name, pivot) {
-    return name + "/" + pivot.length;
+var arity = (function () {
+  function put(obj, key, val) {
+    return (obj[key] = obj[key] || val);
   }
 
-  function caller(nspc, name) {
-    return function() {
+  function caller(scope) {
+    return function () {
       var args = arguments;
-      return nspc[format(name, args)].apply(null, args);
+      return scope[args.length].apply(this, args);
     };
   }
 
-  return function(scope) {
-    var nspc = (scope = scope || {}).arity = {};
+  return function arity(scope) {
+    var self = (scope = scope || {}).arity = {};
 
-    scope.def = function(name, fn) {
-      nspc[format(name, fn)] = fn;
-      return (scope[name] = scope[name] || caller(nspc, name));
+    scope.def = function def(name, func) {
+      put(self, name, {})[func.length] = func
+      return put(scope, name, caller(self[name]));
     };
 
     return scope;
@@ -24,11 +24,11 @@ var arity = (function() {
 
 arity(window);
 
-def("times", function(a) {
+def("times", function (a) {
   return a * a;
 });
 
-def("times", function(a, b) {
+def("times", function (a, b) {
   return a * b;
 });
 
