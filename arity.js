@@ -1,4 +1,11 @@
-var arity = (function () {
+;(function (root, factory) {
+  function i(v, t) { return typeof v === t; }
+  i(exports, 'object') && !i(module, 'undefined')
+  ? module.exports = factory() : i(define, 'function') && define.amd
+  ? define(['arity'], factory) : root.arity = factory();
+}(this, function () {
+  'use strict';
+
   function put(obj, key, val) {
     return (obj[key] = obj[key] || val);
   }
@@ -11,7 +18,7 @@ var arity = (function () {
   }
 
   return function arity(scope) {
-    var self = (scope = scope || {}).arity = {};
+    var self = (scope = scope || {}).arities = {};
 
     scope.def = function def(name, func) {
       put(self, name, {})[func.length] = func
@@ -20,17 +27,4 @@ var arity = (function () {
 
     return scope;
   };
-}());
-
-arity(window);
-
-def("times", function (a) {
-  return a * a;
-});
-
-def("times", function (a, b) {
-  return a * b;
-});
-
-console.log("2 * 2 =", times(2));
-console.log("2 * 3 =", times(2, 3));
+}));
