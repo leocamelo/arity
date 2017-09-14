@@ -1,8 +1,8 @@
 ;(function (root, factory) {
   function i(v, t) { return typeof v === t; }
-  i(exports, 'object') && !i(module, 'undefined')
-  ? module.exports = factory() : i(define, 'function') && define.amd
-  ? define(['arity'], factory) : root.arity = factory();
+  i(exports, 'object') && !i(module, 'undefined') ? module.exports = factory()
+  : i(define, 'function') && define.amd ? define(['arity'], factory)
+  : root.arity = factory();
 }(this, function () {
   'use strict';
 
@@ -14,7 +14,7 @@
     return logger().error(name + '/' + size + ' is undefined');
   }
 
-  function put(obj, key, val) {
+  function fetch(obj, key, val) {
     return (obj[key] = obj[key] || val);
   }
 
@@ -31,8 +31,8 @@
     var self = (scope = scope || {}).arities = {};
 
     scope.def = function def(name, func) {
-      put(self, name, {})[func.length] = func;
-      return put(scope, name, caller(self, name));
+      fetch(self, name, {})[func.length] = func;
+      return fetch(scope, name, caller(self, name));
     };
 
     return scope;
