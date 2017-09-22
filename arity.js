@@ -14,25 +14,41 @@
     return logger().error(name + '/' + size + ' is undefined');
   }
 
-  function fetch(obj, key, val) {
-    return (obj[key] = obj[key] || val);
+  function fetchSet(obj, key, func, args) {
+    return (obj[key] = obj[key] || func.apply(undefined, args));
   }
 
-  function caller(scope, name) {
+  function caller(bucket, name) {
     return function () {
       var args = arguments;
       var size = args.length;
-      var func = scope[name][size];
+      var func = bucket[name][size];
       return func ? func.apply(this, args) : raise(name, size);
     };
   }
 
   return function arity(scope) {
-    var self = (scope = scope || {}).arities = {};
+    var bucket = {};
+    var arities = null;
 
-    scope.def = function def(name, func) {
-      fetch(self, name, {})[func.length] = func;
-      return fetch(scope, name, caller(self, name));
+    scope = scope || {};
+
+    scope.def = function (name, func) {
+      arities = null;
+      fetchSet(bucket, name, Object)[func.length] = func;
+      return fetchSet(scope, name, caller, [bucket, name]);
+    };
+
+    scope.getArities = function () {
+      return arities || (function () {
+        var arities = [];
+        for (var func in bucket) {
+          for (var arity in bucket[func]) {
+            arities.push(func + '/' + arity);
+          }
+        }
+        return arities.sort();
+      }());
     };
 
     return scope;
