@@ -27,6 +27,16 @@
     };
   }
 
+  function getAritiesFrom(bucket) {
+    var arities = [];
+    for (var func in bucket) {
+      for (var arity in bucket[func]) {
+        arities.push(func + '/' + arity);
+      }
+    }
+    return arities.sort();
+  }
+
   return function arity(scope) {
     var bucket = {};
     var arities = null;
@@ -40,15 +50,7 @@
     };
 
     scope.getArities = function () {
-      return arities || (function () {
-        var arities = [];
-        for (var func in bucket) {
-          for (var arity in bucket[func]) {
-            arities.push(func + '/' + arity);
-          }
-        }
-        return arities.sort();
-      }());
+      return (arities = arities || getAritiesFrom(bucket));
     };
 
     return scope;
