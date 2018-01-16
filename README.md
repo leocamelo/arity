@@ -1,6 +1,6 @@
 # arity
 
-Function overload on JavaScript
+Function overloading on JavaScript
 
 ### Use window setup on browser
 
