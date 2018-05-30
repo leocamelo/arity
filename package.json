@@ -1,0 +1,24 @@
+{
+  "name": "arity",
+  "main": "arity.js",
+  "version": "0.1.0",
+  "description": "Function overloading on JavaScript",
+  "license": "MIT",
+  "author": "@leocamelo <leonardocamelo.nave@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leocamelo/arity.git"
+  },
+  "keywords": [
+    "overloading"
+  ],
+  "bugs": {
+    "url": "https://github.com/leocamelo/arity/issues"
+  },
+  "homepage": "https://github.com/leocamelo/arity#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.3",
+    "gulp-uglify": "^3.0.0"
+  }
+}
